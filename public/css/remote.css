@@ -510,3 +510,24 @@
   font: 500 0.82rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   outline: none;
 }
+
+.rm-side,
+.rm-device-head,
+.rm-group,
+.rm-console {
+  border-color: rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  background-color: rgba(15, 15, 15, 0.94);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.22);
+}
+.rm-device.active {
+  border-color: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.09);
+}
+.rm-device.active .rm-device-icon {
+  background: rgba(239, 68, 68, 0.16);
+  color: #ff7474;
+}
+.rm-group-title {
+  letter-spacing: 0.09em;
+}

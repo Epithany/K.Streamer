@@ -96,3 +96,69 @@ main.lg h1 { margin: 6vh 0 0; font-size: clamp(2rem, 4.4vw, 3.6rem); font-weight
 
 .login-body.has-nav main.lg { min-height: 0; }
 @media (max-width: 520px) { .login-body.has-nav main.lg { padding-bottom: 1rem; } }
+
+.login-body {
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background-color: #080808;
+  background-image: radial-gradient(ellipse at 50% 0%, rgba(239, 68, 68, 0.09), transparent 55%);
+}
+main.lg {
+  justify-content: center;
+  width: min(31rem, 100%);
+  min-height: auto;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(22, 22, 22, 0.98), rgba(12, 12, 12, 0.98));
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+  text-align: left;
+}
+main.lg h1 {
+  width: 100%;
+  margin: 0.5rem 0 0;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  letter-spacing: -0.045em;
+}
+.lg-sub {
+  width: 100%;
+  line-height: 1.55;
+}
+.lg-brand {
+  align-self: flex-start;
+  padding: 0.5rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.setup {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+.setup .field {
+  color: #c5c5cb;
+  font-weight: 550;
+}
+.setup .btn-primary {
+  justify-content: center;
+  min-height: 3rem;
+  border-radius: 8px;
+}
+.profiles {
+  width: 100%;
+}
+.tile {
+  border-radius: 12px;
+}
+.tile .avatar {
+  border-radius: 16px;
+}
+@media (max-width: 520px) {
+  .login-body {
+    padding: 0.8rem;
+  }
+  main.lg {
+    width: 100%;
+    padding: 1.4rem;
+  }
+}

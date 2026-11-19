@@ -1,17 +1,12 @@
-@font-face {
-  font-family: "Bricolage Grotesque";
-  src: url("/fonts/Poppins.ttf");
-}
-
 /* ===== Tokens ===== */
 :root {
   --bg: #000;
-  --surface: #141414;
-  --surface-2: #232323;
-  --line: rgba(255, 255, 255, 0.1);
+  --surface: #0f0f0f;
+  --surface-2: #1a1a1a;
+  --line: rgba(255, 255, 255, 0.08);
   --text: #f5f2fa;
-  --muted: #a79fb4;
-  --accent: #f0344a;
+  --muted: #9a9ba3;
+  --accent: #ef4444;
   --safe: clamp(16px, 3.6vw, 72px); /* TV overscan-safe margin */
   --ctl: clamp(44px, 3.4vw, 64px);
   --r: clamp(8px, 0.8vw, 14px);
@@ -130,14 +125,15 @@ a {
   align-items: center;
   gap: 0.6rem;
   min-height: 2.8rem;
-  padding: 0 1.1rem;
-  border: 0;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  padding: 0 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
   font-weight: 600;
   cursor: pointer;
   transition:
     background 0.15s,
+    border-color 0.15s,
     color 0.15s,
     transform 0.15s;
 }
@@ -147,7 +143,8 @@ a {
 }
 @media (hover: hover) {
   .hbtn:hover {
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 }
 [data-input="key"] .hbtn:focus,
@@ -178,11 +175,12 @@ a {
   display: block;
   isolation: isolate;
   aspect-ratio: 16 / 9;
-  border-radius: var(--r);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   text-decoration: none;
   outline: none;
   scroll-margin-block: 4rem 3rem;
-  transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.15s, box-shadow 0.15s;
   perspective: 1000px;
 }
 
@@ -281,6 +279,8 @@ a {
   .card:hover {
     z-index: 2;
     transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   }
   .card:hover .meta {
     opacity: 1;
@@ -1298,4 +1298,83 @@ a.hbtn {
 }
 .up-source small {
   color: var(--muted);
+}
+
+/* ===== K.Streamer visual system ===== */
+:root {
+  --surface-raised: #151515;
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --accent-soft: rgba(239, 68, 68, 0.14);
+}
+
+body:not(.watch-body):not(.shorts-body) {
+  background-color: var(--bg);
+  background-image: radial-gradient(ellipse at 50% -28rem, rgba(255, 255, 255, 0.055), transparent 58%);
+}
+
+button,
+input,
+select,
+textarea {
+  accent-color: var(--accent);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.page-head {
+  padding-bottom: 1.3rem;
+}
+.page-head h1,
+.ls-title h1,
+.mg h1 {
+  letter-spacing: -0.045em;
+}
+.page-head p,
+.mg-hint {
+  line-height: 1.55;
+}
+
+.hbtn {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
+}
+.hbtn.btn-primary,
+.hbtn.up-go,
+.hbtn.ls-play,
+.hbtn.chess-primary {
+  border-color: transparent;
+  background: var(--accent);
+  color: #fff;
+}
+.hbtn.btn-primary:hover,
+.hbtn.up-go:hover,
+.hbtn.ls-play:hover,
+.hbtn.chess-primary:hover {
+  background: #f25353;
+}
+
+.modal,
+.upload-dialog,
+.search-dlg,
+.pk {
+  border-color: var(--line-strong);
+  background: rgba(18, 18, 18, 0.97);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

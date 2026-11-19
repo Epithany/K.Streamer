@@ -414,3 +414,20 @@
 #toast.show {
   opacity: 1;
 }
+
+.chess-card,
+.chess-panel {
+  border-color: rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  background: rgba(16, 16, 16, 0.94);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.2);
+}
+.chess-card input,
+.chess-card select {
+  border-radius: 8px;
+  background: #0a0a0a;
+}
+#board {
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.13), 0 24px 54px rgba(0, 0, 0, 0.42);
+}
