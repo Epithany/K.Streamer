@@ -511,3 +511,30 @@
     height: 2.65rem;
   }
 }
+
+.ls-side {
+  background: rgba(12, 12, 12, 0.96);
+}
+.ls-item {
+  border-radius: 9px;
+}
+.ls-item.active {
+  background: var(--accent-soft, rgba(239, 68, 68, 0.12));
+  color: #fff;
+}
+.ls-item.active .ls-ico {
+  color: var(--accent);
+}
+.track {
+  border-radius: 9px;
+}
+@media (hover: hover) {
+  .track:hover {
+    background: rgba(255, 255, 255, 0.055);
+  }
+}
+.dock {
+  border-radius: 12px;
+  background: rgba(15, 15, 15, 0.97);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.18);
+}

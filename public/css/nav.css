@@ -597,3 +597,24 @@
   background: rgba(20, 20, 20, 0.92);
   transform: translateX(-50%);
 }
+
+/* Quiet, consistent navigation states across pointer and touch layouts. */
+.nav-item {
+  border-radius: 10px;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+.nav-item[aria-current="page"] {
+  border-color: rgba(239, 68, 68, 0.18);
+  background: rgba(239, 68, 68, 0.1);
+}
+.nav-item[aria-current="page"] i {
+  color: #ff6565;
+}
+.nav .acct-btn {
+  border-radius: 10px;
+}
+.nav-plate:not(.lg-on) {
+  background: rgba(15, 15, 15, 0.88);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+}
