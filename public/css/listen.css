@@ -1,0 +1,513 @@
+/* ===== Music: sidebar + list + dock player ===== */
+.listen-body {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #000;
+}
+.listen-body.has-nav { padding-bottom: 0; }
+
+.ls {
+  display: grid;
+  height: 100vh;
+  height: 100dvh;
+  grid-template-columns: clamp(14rem, 20vw, 22rem) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-areas: "side main" "dock dock";
+}
+
+/* ----- Sidebar ----- */
+.ls-side {
+  grid-area: side;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-height: 0;
+  overflow-y: auto;
+  padding: calc(var(--safe) * 0.6) 0.9rem 1rem;
+  background: #0a0a0a;
+  border-right: 1px solid var(--line);
+}
+.ls-label {
+  margin: 1rem 0.6rem 0.3rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ls-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.ls-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  min-height: 2.8rem;
+  padding: 0 0.7rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    transform 0.15s;
+}
+@media (hover: hover) {
+  .ls-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+  }
+}
+.ls-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+.ls-item.playing .ls-ico {
+  color: var(--accent);
+}
+[data-input="key"] .ls-item:focus {
+  background: #fff;
+  color: #000;
+  transform: scale(1.03);
+}
+.ls-ico {
+  flex: none;
+  width: 1.4rem;
+  text-align: center;
+}
+.ls-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ls-count {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+}
+.ls-new {
+  color: var(--muted);
+}
+
+.ls-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.ls-backdrop.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ----- Main ----- */
+.ls-main {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+.ls-top {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: calc(var(--safe) * 0.6) var(--safe) 1rem;
+}
+.ls-title {
+  flex: 1;
+  min-width: 0;
+}
+.ls-kicker {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ls-title h1 {
+  margin: 0.1rem 0;
+  overflow: hidden;
+  font-size: clamp(1.6rem, 3vw, 3rem);
+  font-weight: 780;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ls-meta {
+  margin: 0;
+  color: var(--muted);
+}
+.ls-play {
+  background: var(--accent);
+}
+.ls-menu {
+  display: none;
+}
+
+.ls-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 calc(var(--safe) * 0.6) 1.5rem;
+  overscroll-behavior: contain;
+}
+.ls-main .empty {
+  margin: 4vh auto;
+}
+
+/* ----- Track rows ----- */
+.track {
+  display: grid;
+  grid-template-columns: 2.6rem 3.2rem minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: var(--r);
+  color: var(--text);
+  text-decoration: none;
+  outline: none;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 4rem;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+@media (hover: hover) {
+  .track:hover {
+    background: rgba(255, 255, 255, 0.07);
+  }
+}
+.track.current {
+  background: rgba(255, 255, 255, 0.06);
+}
+.track.current .t-title {
+  color: var(--accent);
+}
+[data-input="key"] .track:focus {
+  background: #fff;
+  color: #000;
+}
+[data-input="key"] .track:focus .t-sub,
+[data-input="key"] .track:focus .t-dur,
+[data-input="key"] .track:focus .t-num {
+  color: #333;
+}
+
+.t-num {
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.eq {
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+  height: 1rem;
+}
+.eq i {
+  width: 3px;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleY(0.35);
+  transform-origin: bottom;
+}
+.track.current .n {
+  display: none;
+}
+.track.current .eq {
+  display: flex;
+}
+.ls:not(.paused) .track.current .eq i {
+  animation: eq 0.9s ease-in-out infinite;
+}
+.ls:not(.paused) .track.current .eq i:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.ls:not(.paused) .track.current .eq i:nth-child(3) {
+  animation-delay: -0.6s;
+}
+@keyframes eq {
+  50% {
+    transform: scaleY(1);
+  }
+}
+/* @media (prefers-reduced-motion: reduce) {
+  .ls:not(.paused) .track.current .eq i {
+    animation: none;
+    transform: scaleY(0.7);
+  }
+} */
+
+.t-art,
+.dock-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: calc(var(--r) * 0.6);
+  background: var(--surface-2);
+  color: var(--muted);
+}
+.t-art {
+  width: 3.2rem;
+  aspect-ratio: 1;
+}
+.t-art img,
+.dock-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.has-img > i:not(.dock-spin) {
+  display: none;
+}
+
+.t-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.t-title,
+.t-sub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.t-title {
+  font-weight: 650;
+}
+.t-sub {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.t-dur {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.t-add {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  opacity: 0;
+  cursor: pointer;
+  outline: none;
+  transition:
+    opacity 0.15s,
+    background 0.15s;
+}
+.track:hover .t-add,
+.track:focus-within .t-add,
+.track.current .t-add {
+  opacity: 1;
+}
+@media (hover: none) {
+  .t-add {
+    opacity: 0.8;
+  }
+}
+.t-add:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+[data-input="key"] .t-add:focus {
+  opacity: 1;
+  background: #fff;
+  color: #000;
+}
+[data-input="key"] .track:focus .t-add {
+  color: #333;
+}
+
+/* ----- Dock player (same controls as the video player) ----- */
+.dock {
+  grid-area: dock;
+  display: grid;
+  grid-template-columns: minmax(12rem, 22rem) minmax(0, 1fr);
+  align-items: center;
+  gap: 0.4rem 2rem;
+  margin: 0 0.9rem 0.9rem;
+  padding: 0.7rem calc(var(--safe) * 0.6);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--r) * 1.4);
+  background: #0a0a0a;
+}
+.dock-now {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-width: 0;
+}
+.dock-art {
+  flex: none;
+  width: 4.2rem;
+  aspect-ratio: 1;
+}
+.dock-spin {
+  position: absolute;
+  z-index: 1;
+  font-size: 1.4rem;
+  color: #fff;
+  filter: drop-shadow(0 0 6px #000);
+}
+.dock-meta {
+  min-width: 0;
+}
+.np-title {
+  overflow: hidden;
+  font-size: 1.1rem;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.np-sub {
+  overflow: hidden;
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dock-ctrl {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+}
+.dock .tl-preview {
+  left: calc(var(--pv) * 100%);
+  bottom: 2rem;
+}
+.dock .ctl:disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+.dock .btn-row {
+  flex-wrap: wrap;
+  row-gap: 0;
+}
+
+.ls:not(.paused) .icon-pause {
+  display: inline;
+}
+.ls:not(.paused) .icon-play {
+  display: none;
+}
+
+/* ----- Phones / narrow windows ----- */
+@media (max-width: 819px) {
+  .ls {
+    height: calc(100vh - var(--nav-clear));
+    height: calc(100dvh - var(--nav-clear));
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "main" "dock";
+  }
+  .ls-side { padding-bottom: var(--nav-clear); }
+  .ls-side {
+    position: fixed;
+    z-index: 40;
+    inset: 0 auto 0 0;
+    width: min(82vw, 20rem);
+    transform: translateX(-102%);
+    transition: transform 0.25s;
+  }
+  .ls-side.open {
+    transform: none;
+  }
+  .ls-menu {
+    display: inline-flex;
+  }
+  .ls-top {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.8rem);
+    align-items: center;
+  }
+  .dock {
+    grid-template-columns: minmax(0, 1fr);
+    margin: 0 0.5rem 0.4rem;
+    padding-top: 0.5rem;
+  }
+  .dock-art {
+    width: 3rem;
+  }
+  .t-num {
+    display: none;
+  }
+  .track {
+    grid-template-columns: 3.2rem minmax(0, 1fr) auto auto;
+    gap: 0.7rem;
+  }
+  #backBtn,
+  #fwdBtn,
+  #speedBtn,
+  .vol-slider {
+    display: none;
+  }
+  .dock .btn-row {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .ls-top {
+    gap: 0.6rem;
+    padding-inline: 1rem;
+  }
+  .ls-title h1 {
+    font-size: 1.55rem;
+  }
+  .ls-meta {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ls-list {
+    padding-inline: 0.5rem;
+  }
+  .track {
+    grid-template-columns: 2.8rem minmax(0, 1fr) auto;
+    gap: 0.55rem;
+    padding: 0.55rem;
+  }
+  .t-art {
+    width: 2.8rem;
+  }
+  .t-dur {
+    display: none;
+  }
+  .dock {
+    gap: 0.25rem;
+    padding-inline: 0.75rem;
+  }
+  .dock-now {
+    gap: 0.65rem;
+  }
+  .dock .ctl {
+    width: 2.65rem;
+    height: 2.65rem;
+  }
+}

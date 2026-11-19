@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+    <script src="/js/client-log.js"></script>
+     
+    <title>Watch</title>
+    <link rel="stylesheet" href="/fa/css/all.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/liquid-glass.css" />
+    <link rel="stylesheet" href="/css/accounts.css" />
+    <link rel="shortcut icon" href="/k.svg" type="image/x-icon" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+
+  <body class="watch-body">
+    <div id="player" class="player paused hud-on" data-volume="high">
+      <video id="video" preload="metadata" playsinline></video>
+      <img id="poster" class="poster" alt="" hidden />
+      <div class="shade shade-top"></div>
+      <div class="shade shade-bottom"></div>
+
+      <div id="buffering" class="buffering" hidden>
+        <i class="fa-solid fa-spinner fa-spin"></i>
+      </div>
+      <div id="seekToast" class="seek-toast" aria-live="polite"></div>
+      <button
+        id="bigPlay"
+        class="big-play"
+        type="button"
+        tabindex="-1"
+        aria-label="Play"
+      >
+        <i class="fa-solid fa-play"></i>
+      </button>
+      <div class="rotate-hint">
+        <i class="fa-solid fa-mobile-screen-button"></i
+        ><span>Rotate your phone to watch in landscape</span>
+      </div>
+
+      <div id="pills" class="pills">
+        <button id="skipIntro" class="pill" type="button" hidden>
+          <i class="fa-solid fa-forward"></i>Skip intro
+        </button>
+        <button id="nextPill" class="pill" type="button" hidden>
+          <i class="fa-solid fa-forward-step"></i>Next episode
+        </button>
+      </div>
+
+      <div id="hud" class="hud">
+        <header class="hud-top">
+          <a id="exitBtn" class="ctl" href="/" aria-label="Back to library"
+            ><i class="fa-solid fa-arrow-left"></i
+          ></a>
+          <div class="now">
+            <div id="nowShow" class="now-show" hidden></div>
+            <h1 id="nowTitle">Loading…</h1>
+          </div>
+        </header>
+
+        <div class="hud-bottom">
+          <div class="seek-row">
+            <span id="tCur" class="time">0:00</span>
+            <div
+              id="timeline"
+              class="timeline"
+              role="slider"
+              tabindex="0"
+              data-adjust
+              aria-label="Seek"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <div class="tl-bar">
+                <div class="tl-buffer"></div>
+                <div class="tl-progress"></div>
+              </div>
+              <div class="tl-knob"></div>
+              <div class="tl-preview">
+                <img id="pvImg" alt="" hidden />
+                <span id="pvTime">0:00</span>
+              </div>
+            </div>
+            <span id="tLeft" class="time"></span>
+          </div>
+
+          <div class="btn-row">
+            <div class="cluster">
+              <button
+                id="playBtn"
+                class="ctl"
+                type="button"
+                aria-label="Play or pause"
+                title="Play/pause (k)"
+              >
+                <i class="fa-solid fa-play icon-play"></i
+                ><i class="fa-solid fa-pause icon-pause"></i>
+              </button>
+              <button
+                id="backBtn"
+                class="ctl"
+                type="button"
+                aria-label="Back 10 seconds"
+                title="Back 10s (j)"
+              >
+                <i class="fa-solid fa-rotate-left"></i>
+              </button>
+              <button
+                id="fwdBtn"
+                class="ctl"
+                type="button"
+                aria-label="Forward 10 seconds"
+                title="Forward 10s (l)"
+              >
+                <i class="fa-solid fa-rotate-right"></i>
+              </button>
+              <div class="vol">
+                <button
+                  id="muteBtn"
+                  class="ctl"
+                  type="button"
+                  aria-label="Mute"
+                  title="Mute (m)"
+                >
+                  <i class="fa-solid fa-volume-high i-vol-high"></i>
+                  <i class="fa-solid fa-volume-low i-vol-low"></i>
+                  <i class="fa-solid fa-volume-xmark i-vol-mute"></i>
+                </button>
+                <div
+                  id="volSlider"
+                  class="vol-slider"
+                  role="slider"
+                  tabindex="0"
+                  data-adjust
+                  aria-label="Volume"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  <div class="vol-track">
+                    <div id="volFill" class="vol-fill"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cluster">
+              <button
+                id="prevEpBtn"
+                class="ctl"
+                type="button"
+                aria-label="Previous episode"
+                title="Previous episode"
+                hidden
+              >
+                <i class="fa-solid fa-backward-step"></i>
+              </button>
+              <button
+                id="nextEpBtn"
+                class="ctl"
+                type="button"
+                aria-label="Next episode"
+                title="Next episode (n)"
+                hidden
+              >
+                <i class="fa-solid fa-forward-step"></i>
+              </button>
+              <button
+                id="saveBtn"
+                class="ctl"
+                type="button"
+                aria-label="Save to playlist"
+                title="Save to playlist"
+              >
+                <i class="fa-solid fa-bookmark"></i>
+              </button>
+              <button
+                id="episodesBtn"
+                class="ctl"
+                type="button"
+                title="Episodes (e)"
+                hidden
+              >
+                <i class="fa-solid fa-layer-group"></i
+                ><span class="lbl">Episodes</span>
+              </button>
+              <button
+                id="captionsBtn"
+                class="ctl"
+                type="button"
+                aria-label="Subtitles"
+                title="Subtitles (c)"
+                aria-pressed="false"
+                hidden
+              >
+                <i class="fa-solid fa-closed-captioning"></i>
+              </button>
+              <button
+                id="speedBtn"
+                class="ctl"
+                type="button"
+                aria-label="Playback speed"
+                title="Playback speed"
+              >
+                <i class="fa-solid fa-gauge-high"></i
+                ><span id="speedLbl" class="lbl-always">1x</span>
+              </button>
+              <button
+                id="autoBtn"
+                class="ctl"
+                type="button"
+                aria-label="Autoplay next episode"
+                title="Autoplay next"
+                aria-pressed="true"
+              >
+                <i class="fa-solid fa-circle-play"></i>
+              </button>
+              <button
+                id="fsBtn"
+                class="ctl"
+                type="button"
+                aria-label="Fullscreen"
+                title="Fullscreen (f)"
+              >
+                <i class="fa-solid fa-expand icon-expand"></i
+                ><i class="fa-solid fa-compress icon-compress"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section id="episodes" class="episodes" aria-label="Episodes" inert>
+        <div class="ep-head">
+          <div class="season">
+            <button
+              id="seasonBtn"
+              class="ctl season-btn"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+            >
+              <span id="seasonLabel">Season 1</span
+              ><i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <ul id="seasonMenu" class="season-menu" role="listbox" hidden></ul>
+          </div>
+          <button
+            id="epClose"
+            class="ctl"
+            type="button"
+            aria-label="Close episodes"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="ep-stage">
+          <button
+            id="epPrev"
+            class="ep-arrow left"
+            type="button"
+            tabindex="-1"
+            aria-label="Scroll left"
+          >
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div id="epTrack" class="ep-track" role="list"></div>
+          <button
+            id="epNext"
+            class="ep-arrow right"
+            type="button"
+            tabindex="-1"
+            aria-label="Scroll right"
+          >
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/device-control.js"></script>
+    <script src="/js/ui-common.js"></script>
+    <script src="/js/picker.js"></script>
+    <script src="/js/watch.js"></script>
+    <script src="/js/liquid-glass.js"></script>
+    <script>
+      LiquidGlass.init({
+        selector: glassSelector("button, .ep-card, #pvImg"),
+        rim: 0,
+        strength: 3,
+        bezel: 0.6,
+        power: 3,
+        page: {
+          image: "/images/chromatic_light_2_preview.webp",
+          opacity: 1,
+          fadeBottom: true,
+        },
+        video: { element: "#video" },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+    <script src="/js/client-log.js"></script>
+
+    <title>Chess · K. Streamer</title>
+    <link rel="stylesheet" href="/fa/css/all.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/liquid-glass.css" />
+    <link rel="stylesheet" href="/css/accounts.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="stylesheet" href="/css/chess.css" />
+    <link rel="shortcut icon" href="/k.svg" type="image/x-icon" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+
+  <body class="chess-body">
+    <main class="chess">
+      <div class="page-bar">
+        <a class="hbtn" href="/"
+          ><i class="fa-solid fa-arrow-left"></i><span>Library</span></a
+        >
+        <div id="accountSlot"></div>
+      </div>
+
+      <header class="page-head">
+        <h1>Chess</h1>
+        <p id="who">Connecting…</p>
+      </header>
+
+      <section id="lobby" class="chess-card">
+        <h2>Play</h2>
+        <div class="chess-row">
+          <select id="botLevel" aria-label="Bot level">
+            <option value="beginner">Beginner</option>
+            <option value="casual" selected>Casual</option>
+            <option value="club">Club</option>
+            <option value="master">Master</option>
+            <option value="max">Maximum</option>
+          </select>
+          <select id="botColor" aria-label="Your colour">
+            <option value="r">Random colour</option>
+            <option value="w">White</option>
+            <option value="b">Black</option>
+          </select>
+          <button class="hbtn chess-primary" id="bot" type="button">
+            <i class="fa-solid fa-robot"></i><span>Play Stockfish</span>
+          </button>
+        </div>
+
+        <button class="hbtn" id="quick" type="button">
+          <i class="fa-solid fa-bolt"></i><span>Find an opponent</span>
+        </button>
+
+        <section class="chess-online" aria-labelledby="onlineTitle">
+          <h3 id="onlineTitle" class="chess-sub">Online now</h3>
+          <div id="onlineList" class="online-list"></div>
+          <p id="onlineEmpty" class="chess-note">
+            No one else has the chess page open. Invites only reach people who
+            are online.
+          </p>
+        </section>
+
+        <div class="chess-row">
+          <input
+            id="code"
+            placeholder="Game code"
+            maxlength="6"
+            autocapitalize="characters"
+            aria-label="Game code"
+          />
+          <button class="hbtn" id="join" type="button">Join game</button>
+        </div>
+
+        <p class="chess-note">
+          You play as your signed-in account. Wins, losses and draws are kept on
+          that account; games against Stockfish are not counted.
+        </p>
+      </section>
+
+      <section id="game" hidden>
+        <div class="boardcol">
+          <div class="player" id="top"></div>
+          <div id="board" role="grid" aria-label="Chess board"></div>
+          <div class="player" id="bottom"></div>
+        </div>
+        <aside class="chess-side">
+          <div id="status"></div>
+
+          <div id="invite" class="chess-panel" hidden>
+            <p id="waitText" class="chess-note">Waiting for an opponent…</p>
+            <div class="chess-row">
+              <span id="inviteCode" class="invite-code"></span>
+              <button class="hbtn" id="cancelInvite" type="button">
+                Cancel
+              </button>
+            </div>
+          </div>
+
+          <div id="moves"></div>
+
+          <div class="chess-row" id="actions">
+            <button class="hbtn" id="resign" type="button">Resign</button>
+            <button class="hbtn" id="draw" type="button">Offer draw</button>
+            <button class="hbtn chess-primary" id="acceptDraw" type="button" hidden>
+              Accept draw
+            </button>
+            <button class="hbtn" id="declineDraw" type="button" hidden>
+              Decline
+            </button>
+            <button class="hbtn" id="leave" type="button">Leave game</button>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <dialog id="promo" class="chess-dialog">
+      <div class="promo"></div>
+    </dialog>
+
+    <div id="notices" class="notices" aria-live="polite" aria-label="Notifications"></div>
+    <div id="toast" role="status"></div>
+
+    <script src="/js/account.js"></script>
+    <script src="/js/chess.js"></script>
+    <script src="/js/liquid-glass.js"></script>
+    <script>
+      LiquidGlass.init({
+        selector: "button:not(.acct-btn)",
+        rim: 0,
+        strength: 2,
+        bezel: 0.4,
+        power: 5,
+        page: {
+          image: "/images/chromatic_light_2_preview.webp",
+          opacity: 0.5,
+          fadeBottom: true,
+        },
+      });
+    </script>
+  </body>
+</html>

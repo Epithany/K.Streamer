@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+    <script src="/js/client-log.js"></script>
+
+    <title>Music</title>
+    <link rel="stylesheet" href="/fa/css/all.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/accounts.css" />
+    <link rel="stylesheet" href="/css/liquid-glass.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="stylesheet" href="/css/listen.css" />
+    <link rel="shortcut icon" href="/k.svg" type="image/x-icon" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+
+  <body class="listen-body has-nav">
+    <nav class="nav" id="appNav" aria-label="Main">
+      <span class="nav-plate" aria-hidden="true"></span>
+
+      <div class="nav-scroll">
+
+        <div class="nav-main">
+        <a class="nav-item" href="/" data-nav="/"
+          ><i class="fa-solid fa-house"></i
+          ><span class="nav-label">Library</span></a
+        >
+        <a class="nav-item" href="/listen" data-nav="/listen"
+          ><i class="fa-solid fa-music"></i
+          ><span class="nav-label">Music</span></a
+        >
+        <a class="nav-item" href="/shorts" data-nav="/shorts"
+          ><i class="fa-solid fa-mobile-screen"></i
+          ><span class="nav-label">Shorts</span></a
+        >
+        <button
+          id="navSearch"
+          class="nav-item"
+          type="button"
+          aria-label="Search"
+          title="Search (/)"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i
+          ><span class="nav-label">Search</span>
+        </button>
+        <a class="nav-item" href="/manage" data-nav="/manage"
+          ><i class="fa-solid fa-photo-film"></i
+          ><span class="nav-label">Studio</span></a
+        >
+        <button
+          id="navMore"
+          class="nav-item nav-more"
+          type="button"
+          aria-label="More"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
+          <i class="fa-solid fa-ellipsis"></i>
+        </button>
+      </div>
+      <div class="nav-extra">
+        <a class="nav-item" href="/channels" data-nav="/channels"
+          ><i class="fa-solid fa-tower-broadcast"></i
+          ><span class="nav-label">Channels</span></a
+        >
+      </div>
+      </div>
+      
+      <div id="accountSlot" class="nav-account" data-menu="up"></div>
+    </nav>
+    <div id="app" class="ls paused" data-volume="high">
+      <div id="sbBackdrop" class="ls-backdrop"></div>
+
+      <aside id="sidebar" class="ls-side" aria-label="Playlists">
+        <button id="navQueue" class="ls-item" type="button" hidden>
+          <span class="ls-ico"><i class="fa-solid fa-list-ol"></i></span
+          ><span class="ls-name">Now playing</span>
+        </button>
+
+        <h2 class="ls-label">Playlists</h2>
+        <nav id="playlistNav" class="ls-nav"></nav>
+      </aside>
+
+      <main class="ls-main">
+        <header class="ls-top">
+          <button
+            id="menuBtn"
+            class="ctl ls-menu"
+            type="button"
+            aria-label="Playlists"
+          >
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="ls-title">
+            <p id="viewKicker" class="ls-kicker"></p>
+            <h1 id="viewTitle">Music</h1>
+            <p id="viewMeta" class="ls-meta"></p>
+          </div>
+          <button id="playAllBtn" class="hbtn ls-play" type="button" hidden>
+            <i class="fa-solid fa-play"></i><span>Play</span>
+          </button>
+        </header>
+
+        <div id="songList" class="ls-list" role="list"></div>
+        <p id="empty" class="empty" hidden></p>
+      </main>
+
+      <footer id="dock" class="dock" hidden>
+        <div class="dock-now">
+          <span id="npArt" class="dock-art"
+            ><i class="fa-solid fa-music"></i
+            ><i
+              id="buffering"
+              class="fa-solid fa-spinner fa-spin dock-spin"
+              hidden
+            ></i
+          ></span>
+          <div class="dock-meta">
+            <div id="npTitle" class="np-title"></div>
+            <div id="npSub" class="np-sub"></div>
+          </div>
+        </div>
+
+        <div class="dock-ctrl">
+          <div class="seek-row">
+            <span id="tCur" class="time">0:00</span>
+            <div
+              id="timeline"
+              class="timeline"
+              role="slider"
+              tabindex="0"
+              data-adjust
+              aria-label="Seek"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <div class="tl-bar">
+                <div class="tl-buffer"></div>
+                <div class="tl-progress"></div>
+              </div>
+              <div class="tl-knob"></div>
+              <div class="tl-preview"><span id="pvTime">0:00</span></div>
+            </div>
+            <span id="tLeft" class="time"></span>
+          </div>
+
+          <div class="btn-row">
+            <div class="cluster">
+              <button
+                id="prevBtn"
+                class="ctl"
+                type="button"
+                aria-label="Previous song"
+                title="Previous (p)"
+              >
+                <i class="fa-solid fa-backward-step"></i>
+              </button>
+              <button
+                id="playBtn"
+                class="ctl"
+                type="button"
+                aria-label="Play or pause"
+                title="Play/pause (k)"
+              >
+                <i class="fa-solid fa-play icon-play"></i
+                ><i class="fa-solid fa-pause icon-pause"></i>
+              </button>
+              <button
+                id="nextBtn"
+                class="ctl"
+                type="button"
+                aria-label="Next song"
+                title="Next (n)"
+              >
+                <i class="fa-solid fa-forward-step"></i>
+              </button>
+              <button
+                id="backBtn"
+                class="ctl"
+                type="button"
+                aria-label="Back 10 seconds"
+                title="Back 10s (j)"
+              >
+                <i class="fa-solid fa-rotate-left"></i>
+              </button>
+              <button
+                id="fwdBtn"
+                class="ctl"
+                type="button"
+                aria-label="Forward 10 seconds"
+                title="Forward 10s (l)"
+              >
+                <i class="fa-solid fa-rotate-right"></i>
+              </button>
+              <div class="vol">
+                <button
+                  id="muteBtn"
+                  class="ctl"
+                  type="button"
+                  aria-label="Mute"
+                  title="Mute (m)"
+                >
+                  <i class="fa-solid fa-volume-high i-vol-high"></i>
+                  <i class="fa-solid fa-volume-low i-vol-low"></i>
+                  <i class="fa-solid fa-volume-xmark i-vol-mute"></i>
+                </button>
+                <div
+                  id="volSlider"
+                  class="vol-slider"
+                  role="slider"
+                  tabindex="0"
+                  data-adjust
+                  aria-label="Volume"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  <div class="vol-track">
+                    <div id="volFill" class="vol-fill"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cluster">
+              <button
+                id="shuffleBtn"
+                class="ctl"
+                type="button"
+                aria-label="Shuffle"
+                title="Shuffle (s)"
+                aria-pressed="false"
+              >
+                <i class="fa-solid fa-shuffle"></i>
+              </button>
+              <button
+                id="repeatBtn"
+                class="ctl"
+                type="button"
+                aria-label="Repeat playlist"
+                title="Repeat (r)"
+                aria-pressed="false"
+              >
+                <i class="fa-solid fa-repeat"></i>
+              </button>
+              <button
+                id="queueBtn"
+                class="ctl"
+                type="button"
+                aria-label="Show queue"
+                title="Queue (q)"
+              >
+                <i class="fa-solid fa-list-ol"></i>
+              </button>
+              <button
+                id="speedBtn"
+                class="ctl"
+                type="button"
+                aria-label="Playback speed"
+                title="Playback speed"
+              >
+                <i class="fa-solid fa-gauge-high"></i
+                ><span id="speedLbl" class="lbl-always">1x</span>
+              </button>
+              <button
+                id="autoBtn"
+                class="ctl"
+                type="button"
+                aria-label="Autoplay next song"
+                title="Autoplay next"
+                aria-pressed="true"
+              >
+                <i class="fa-solid fa-circle-play"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <audio id="audio" preload="metadata"></audio>
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/device-control.js"></script>
+    <script src="/js/ui-common.js"></script>
+    <script src="/js/picker.js"></script>
+    <script src="/js/account.js"></script>
+    <script src="/js/listen.js"></script>
+    <script src="/js/liquid-glass.js"></script>
+    <script>
+      LiquidGlass.init({
+        selector: glassSelector("#dock"),
+        rim: 0,
+        strength: 2,
+        bezel: 0.6,
+        power: 3,
+        page: {
+          image: "/images/chromatic_light_2_preview.webp",
+          opacity: 1,
+          fadeBottom: true,
+        },
+      });
+    </script>
+  </body>
+</html>

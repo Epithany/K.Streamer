@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+    <script src="/js/client-log.js"></script> 
+    <title>Manage playlist · K. Streamer</title>
+    <link rel="stylesheet" href="/fa/css/all.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/liquid-glass.css" />
+    <link rel="stylesheet" href="/css/accounts.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="stylesheet" href="/css/manage.css" />
+    <link rel="shortcut icon" href="/k.svg" type="image/x-icon" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+  <body class="manage-body">
+
+    <main class="mg playlist-studio">
+      <a class="hbtn" href="/manage#playlists"><i class="fa-solid fa-arrow-left"></i><span>Playlists</span></a>
+      <p class="studio-kicker">Playlist Studio</p>
+      <div class="workspace-title">
+        <div>
+          <h1 id="playlistName">Loading…</h1>
+          <p id="playlistMeta" class="mg-hint"></p>
+        </div>
+        <button id="saveName" class="hbtn btn-primary" type="button">
+          <i class="fa-solid fa-floppy-disk"></i><span>Save</span>
+        </button>
+      </div>
+
+      <section class="studio-panel">
+        <h2>Details</h2>
+        <label class="field"
+          ><span>Playlist name</span
+          ><input id="nameInput" type="text" maxlength="60" autocomplete="off"
+        /></label>
+        <label class="field"
+          ><span>Playlist thumbnail</span
+          ><select id="thumbnailSelect"></select
+        ></label>
+        <p class="mg-hint">Choose one of the playlist’s videos as its cover.</p>
+      </section>
+
+      <section class="studio-panel">
+        <div class="panel-head">
+          <div>
+            <h2>Videos in this list</h2>
+            <p class="mg-hint">
+              Change visibility, remove an item, or move your own video to
+              Shorts.
+            </p>
+          </div>
+        </div>
+        <div id="playlistItems" class="studio-list"></div>
+      </section>
+
+      <section id="addPanel" class="studio-panel">
+        <div class="panel-head">
+          <div>
+            <h2>Add videos</h2>
+            <p class="mg-hint">Add one of your videos to this playlist.</p>
+          </div>
+        </div>
+        <div id="availableVideos" class="studio-list"></div>
+      </section>
+    </main>
+
+    <script src="/js/device-control.js"></script>
+    <script src="/js/ui-common.js"></script>
+    <script src="/js/account.js"></script>
+    <script src="/js/manage-playlist.js"></script>
+    <script src="/js/liquid-glass.js"></script>
+    <script>
+      LiquidGlass.init({
+        selector: "button:not(.acct-btn)",
+        rim: 0,
+        strength: 3,
+        bezel: 0.6,
+        power: 3,
+        page: {
+          image: "/images/chromatic_light_2_preview.webp",
+          opacity: 1,
+          fadeBottom: true,
+        },
+      });
+    </script>
+  </body>
+</html>

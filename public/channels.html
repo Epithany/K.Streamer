@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+    <script src="/js/client-log.js"></script>
+     
+    <title>Channels · K. Streamer</title>
+    <link rel="stylesheet" href="/fa/css/all.min.css" />
+    <link rel="stylesheet" href="/css/liquid-glass.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/accounts.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="shortcut icon" href="/k.svg" type="image/x-icon" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+
+  <body class="login-body has-nav">
+    <nav class="nav" id="appNav" aria-label="Main">
+      <span class="nav-plate" aria-hidden="true"></span>
+      <div class="nav-scroll">
+        <div class="nav-main">
+        <a class="nav-item" href="/" data-nav="/"><i class="fa-solid fa-house"></i><span class="nav-label">Library</span></a>
+        <a class="nav-item" href="/listen" data-nav="/listen"><i class="fa-solid fa-music"></i><span class="nav-label">Music</span></a>
+        <a class="nav-item" href="/shorts" data-nav="/shorts"><i class="fa-solid fa-mobile-screen"></i><span class="nav-label">Shorts</span></a>
+        <button id="navSearch" class="nav-item" type="button" aria-label="Search" title="Search (/)"><i class="fa-solid fa-magnifying-glass"></i><span class="nav-label">Search</span></button>
+        <a class="nav-item" href="/manage" data-nav="/manage"><i class="fa-solid fa-photo-film"></i><span class="nav-label">Studio</span></a>
+        <button id="navMore" class="nav-item nav-more" type="button" aria-label="More" aria-expanded="false" aria-haspopup="true"><i class="fa-solid fa-ellipsis"></i></button>
+      </div>
+      <div class="nav-extra">
+        <a class="nav-item" href="/channels" data-nav="/channels"><i class="fa-solid fa-tower-broadcast"></i><span class="nav-label">Channels</span></a>
+      </div>
+      </div>
+      
+      <div id="accountSlot" class="nav-account" data-menu="up"></div>
+    </nav>
+
+    <main class="lg">
+      <h1>Channels</h1>
+      <p class="lg-sub">Everything each person has shared with you.</p>
+      <div id="channels" class="profiles"></div>
+    </main>
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/device-control.js"></script>
+    <script src="/js/ui-common.js"></script>
+    <script src="/js/account.js"></script>
+    <script src="/js/channels.js"></script>
+    <script src="/js/liquid-glass.js"></script>
+    <script>
+      LiquidGlass.init({
+        selector: glassSelector("button:not(.nav-item):not(.acct-btn)"),
+        rim: 0,
+        strength: 3,
+        bezel: 0.6,
+        power: 3,
+        page: {
+          image: "/images/chromatic_light_2_preview.webp",
+          opacity: 1,
+          fadeBottom: true,
+        },
+      });
+    </script>
+  </body>
+</html>

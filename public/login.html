@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+    <script src="/js/client-log.js"></script>
+     
+    <title>Sign in · K. Streamer</title>
+    <link rel="stylesheet" href="/fa/css/all.min.css" />
+    <link rel="stylesheet" href="/css/liquid-glass.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/accounts.css" />
+    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="shortcut icon" href="/k.svg" type="image/x-icon" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+
+  <body class="login-body">
+    <main class="lg">
+      <a class="brand lg-brand" href="/" aria-label="K. Streamer"
+        ><img src="k.svg" alt="" /> </a
+      >
+
+      <h1 id="lgTitle">Who’s watching?</h1>
+      <p id="lgSub" class="lg-sub"></p>
+
+      <div id="profiles" class="profiles"></div>
+
+      <form id="setupForm" class="setup" hidden>
+        <label class="field"
+          ><span>Your name</span
+          ><input
+            id="suName"
+            type="text"
+            maxlength="32"
+            autocomplete="username"
+            value="Knee's Overlord"
+        /></label>
+        <label class="field"
+          ><span>Password</span
+          ><input id="suPass" type="password" autocomplete="new-password"
+        /></label>
+        <label class="field"
+          ><span>Repeat password</span
+          ><input id="suPass2" type="password" autocomplete="new-password"
+        /></label>
+        <p id="suError" class="m-error" role="alert"></p>
+        <button type="submit" class="hbtn btn-primary">Create account</button>
+      </form>
+
+      <div id="lgFooter" class="lg-footer" hidden></div>
+    </main>
+
+    <dialog id="pwDlg" class="modal">
+      <form id="pwForm">
+        <div class="pw-who">
+          <span id="pwAvatar"></span>
+          <div>
+            <h2 id="pwName"></h2>
+            <div class="lg-sub">Enter the password to continue</div>
+          </div>
+        </div>
+        <label class="field"
+          ><span>Password</span
+          ><input id="pwInput" type="password" autocomplete="current-password"
+        /></label>
+        <p id="pwError" class="m-error" role="alert"></p>
+        <div class="m-actions">
+          <button id="pwCancel" type="button" class="hbtn">Cancel</button>
+          <button id="pwOk" type="submit" class="hbtn btn-primary">
+            Sign in
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="addDlg" class="modal">
+      <form id="addForm">
+        <h2>Create account</h2>
+        <label class="field"
+          ><span>Name</span
+          ><input id="adName" type="text" maxlength="32" autocomplete="off"
+        /></label>
+        <label class="field"
+          ><span>Password</span
+          ><input id="adNewPass" type="password" autocomplete="new-password"
+        /></label>
+        <label class="field"
+          ><span>Repeat password</span
+          ><input id="adNewPass2" type="password" autocomplete="new-password"
+        /></label>
+        <div
+          id="adColors"
+          class="swatches"
+          role="radiogroup"
+          aria-label="Colour"
+        ></div>
+        <p id="adError" class="m-error" role="alert"></p>
+        <div class="m-actions">
+          <button id="adCancel" type="button" class="hbtn">Cancel</button>
+          <button id="adOk" type="submit" class="hbtn btn-primary">
+            Create account
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/device-control.js"></script>
+    <script src="/js/ui-common.js"></script>
+    <script src="/js/account.js"></script>
+    <script src="/js/login.js"></script>
+    <script src="/js/liquid-glass.js"></script>
+    <script>
+      LiquidGlass.init({
+        selector: glassSelector("button"),
+        rim: 0,
+        strength: 3,
+        bezel: 0.6,
+        power: 3,
+        page: {
+          image: "/images/chromatic_light_2_preview.webp",
+          opacity: 1,
+          fadeBottom: true,
+        },
+      });
+    </script>
+  </body>
+</html>

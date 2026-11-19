@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+    <script src="/js/client-log.js"></script>
+     
+    <title>Shorts</title>
+    <link rel="stylesheet" href="/fa/css/all.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/liquid-glass.css" />
+    <link rel="stylesheet" href="/css/shorts.css" />
+    <link rel="shortcut icon" href="/k.svg" type="image/x-icon" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+
+  <body class="shorts-body">
+    <main id="feed" class="feed" aria-label="Shorts"></main>
+    <p id="empty" class="s-empty" hidden></p>
+
+    <a
+      id="backBtn"
+      class="sbtn s-back"
+      href="/"
+      aria-label="Back to library"
+      title="Back (Esc)"
+      ><i class="fa-solid fa-arrow-left"></i
+    ></a>
+    <button
+      id="muteBtn"
+      class="sbtn s-mute"
+      type="button"
+      aria-label="Mute or unmute"
+      title="Mute (m)"
+    >
+      <i class="fa-solid fa-volume-high i-on"></i
+      ><i class="fa-solid fa-volume-xmark i-off"></i>
+    </button>
+
+    <div id="nav" class="s-nav">
+      <button
+        id="upBtn"
+        class="sbtn page-scroll-up"
+        type="button"
+        aria-label="Previous short"
+        title="Previous (↑)"
+      >
+        <i class="fa-solid fa-chevron-up"></i>
+      </button>
+      <button
+        id="downBtn"
+        class="sbtn page-scroll-down"
+        type="button"
+        aria-label="Next short"
+        title="Next (↓)"
+      >
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+    </div>
+
+    <button id="soundHint" class="s-hint" type="button" hidden>
+      <i class="fa-solid fa-volume-high"></i>Tap for sound
+    </button>
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/device-control.js"></script>
+    <script src="/js/ui-common.js"></script>
+    <script src="/js/shorts.js"></script>
+    <script src="/js/liquid-glass.js"></script>
+    <script>
+      LiquidGlass.init({
+        selector: glassSelector("button"),
+        rim: 0,
+        strength: 3,
+        bezel: 0.6,
+        power: 3,
+        page: {
+          image: "/images/chromatic_light_2_preview.webp",
+          opacity: 1,
+          fadeBottom: true,
+        },
+      });
+    </script>
+  </body>
+</html>

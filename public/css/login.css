@@ -1,0 +1,98 @@
+/* ===== Account picker (Netflix-style) and channels ===== */
+.login-body { min-height: 100vh; min-height: 100dvh; background: #000; }
+main.lg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  width: min(64rem, 100%);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: calc(var(--safe) * 0.8) var(--safe);
+  text-align: center;
+}
+main.lg h1 { margin: 6vh 0 0; font-size: clamp(2rem, 4.4vw, 3.6rem); font-weight: 760; }
+.lg-sub { margin: 0; color: var(--muted); }
+
+.profiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1rem, 3vw, 2.6rem);
+  margin-top: 1.4rem;
+}
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  width: clamp(7.5rem, 12vw, 10rem);
+  padding: 0.4rem;
+  border: 0;
+  border-radius: var(--r);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.15s, color 0.15s;
+}
+.tile .avatar {
+  --s: clamp(6rem, 10vw, 8.5rem);
+  border: 3px solid transparent;
+  border-radius: 14%;
+  transition: border-color 0.15s;
+}
+.tile-name { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tile-sub { color: var(--muted); font-size: 0.8rem; font-weight: 500; }
+.tile.current .tile-sub { color: #6fdc8c; }
+@media (hover: hover) {
+  .tile:hover { color: #fff; transform: scale(1.06); }
+  .tile:hover .avatar { border-color: #fff; }
+}
+[data-input="key"] .tile:focus { color: #fff; transform: scale(1.06); }
+[data-input="key"] .tile:focus .avatar { border-color: #fff; }
+
+.lg-footer { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-top: 2rem; }
+
+.setup { display: flex; flex-direction: column; gap: 0.9rem; width: min(22rem, 100%); margin-top: 1rem; text-align: left; }
+.setup .field { display: flex; flex-direction: column; gap: 0.35rem; color: var(--muted); font-size: 0.9rem; }
+
+#pwDlg .pw-who { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+#pwDlg .pw-who .avatar { --s: 3.6rem; border-radius: 14%; }
+#pwDlg h2 { margin: 0; }
+
+/* "Add account" tile + dialog */
+.tile.add .avatar { border: 3px dashed #555; background: transparent; color: #777; font-size: 2.6rem; }
+@media (hover: hover) { .tile.add:hover .avatar { border-color: #fff; color: #fff; } }
+[data-input="key"] .tile.add:focus .avatar { border-color: #fff; color: #fff; }
+.m-rule { margin: 0.4rem 0 1rem; border: 0; border-top: 1px solid var(--line); }
+.modal select {
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+}
+.swatches { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.4rem; }
+.swatches label { cursor: pointer; }
+.swatches input { position: absolute; opacity: 0; pointer-events: none; }
+.swatches .avatar { --s: 2.2rem; border: 3px solid transparent; border-radius: 50%; }
+.swatches input:checked + .avatar { border-color: #fff; }
+[data-input="key"] .swatches input:focus + .avatar { outline: 3px solid #fff; outline-offset: 2px; }
+
+@media (max-width: 520px) {
+  .lg { gap: 1rem; padding-inline: 1rem; }
+  main.lg h1 { margin-top: 3vh; }
+  .profiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; gap: 1rem; }
+  .tile { width: 100%; min-width: 0; }
+  .tile .avatar { --s: min(28vw, 7rem); }
+  .lg-footer { margin-top: 1rem; }
+}
+
+.login-body.has-nav main.lg { min-height: 0; }
+@media (max-width: 520px) { .login-body.has-nav main.lg { padding-bottom: 1rem; } }

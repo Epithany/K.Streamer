@@ -1,0 +1,336 @@
+/* ===== Shared account UI: avatars, account menu, dialogs, playlist picker ===== */
+.avatar {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: var(--s, 2.2rem);
+  height: var(--s, 2.2rem);
+  border-radius: 50%;
+  background: var(--c, #f0344a);
+  color: #fff;
+  font-size: calc(var(--s, 2.2rem) * 0.5);
+  font-weight: 750;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ----- Account button + menu ----- */
+.acct {
+  position: relative;
+}
+.acct-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 14rem;
+  min-height: 2.8rem;
+  padding: 0 0.9rem 0 0.4rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.acct-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (hover: hover) {
+  .acct-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+}
+[data-input="key"] .acct-btn:focus {
+  background: #fff;
+  color: #000;
+}
+@media (max-width: 560px) {
+  .acct-name {
+    display: none;
+  }
+  .acct-btn {
+    padding-right: 0.4rem;
+  }
+}
+
+.acct-menu {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  min-width: 13rem;
+  padding: 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
+}
+[data-menu="up"] .acct-menu {
+  top: auto;
+  bottom: calc(100% + 0.4rem);
+  right: auto;
+  left: 0;
+}
+.acct-who {
+  padding: 0.5rem 0.8rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.acct-menu hr {
+  margin: 0.3rem 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.acct-menu a,
+.acct-menu button {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  min-height: 2.6rem;
+  padding: 0 0.8rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+}
+.acct-menu i {
+  width: 1.2rem;
+  text-align: center;
+  color: var(--muted);
+}
+@media (hover: hover) {
+  .acct-menu a:hover,
+  .acct-menu button:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+[data-input="key"] .acct-menu a:focus,
+[data-input="key"] .acct-menu button:focus {
+  background: #fff;
+  color: #000;
+}
+[data-input="key"] .acct-menu a:focus i,
+[data-input="key"] .acct-menu button:focus i {
+  color: #000;
+}
+
+/* ----- Modal dialogs ----- */
+.modal {
+  width: min(26rem, calc(100vw - 2rem));
+  padding: 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--r) * 1.5);
+  background: var(--surface);
+  color: var(--text);
+}
+.modal::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+.modal h2 {
+  margin: 0 0 0.9rem;
+  font-size: 1.2rem;
+}
+.modal label.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.8rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.modal input[type="text"],
+.modal input[type="password"],
+.field input[type="text"],
+.field input[type="password"] {
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+}
+.modal input:focus,
+.field input:focus {
+  outline: 2px solid var(--accent);
+}
+.m-error {
+  min-height: 1.2em;
+  margin: 0.2rem 0 0;
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+.m-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+.btn-primary {
+  background: var(--accent);
+}
+.btn-danger {
+  color: var(--accent);
+}
+.hbtn:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ----- Who-can-see chips ----- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.badge.public {
+  color: #6fdc8c;
+}
+.badge.shared {
+  color: #7db4ff;
+}
+.people {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+.people label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.8rem 0.3rem 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-2);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.people input {
+  accent-color: var(--accent);
+}
+.people .avatar {
+  --s: 1.5rem;
+}
+
+/* ----- Channel banner on the library page ----- */
+.channel-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem var(--safe) 0;
+}
+.channel-banner .avatar {
+  --s: 3.6rem;
+}
+.channel-banner h2 {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+}
+.channel-banner a {
+  margin-left: auto;
+  color: var(--muted);
+}
+
+/* ----- "Save to playlist" popover ----- */
+.pk {
+  position: fixed;
+  z-index: 10050;
+  display: flex;
+  flex-direction: column;
+  width: min(18rem, calc(100vw - 1rem));
+  max-height: min(24rem, 60vh);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+  color: var(--text);
+}
+.pk-title {
+  padding: 0.8rem 1rem 0.4rem;
+  font-weight: 700;
+}
+.pk-list {
+  overflow-y: auto;
+  padding: 0.2rem 0.4rem;
+}
+.pk-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  min-height: 2.6rem;
+  padding: 0 0.7rem;
+  border: 0;
+  border-radius: calc(var(--r) * 0.7);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.pk-row:disabled {
+  opacity: 0.5;
+}
+@media (hover: hover) {
+  .pk-row:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+[data-input="key"] .pk-row:focus {
+  background: #fff;
+  color: #000;
+}
+.pk-check {
+  width: 1.2rem;
+  text-align: center;
+  opacity: 0;
+}
+.pk-row.on .pk-check {
+  opacity: 1;
+  color: var(--accent);
+}
+.pk-new .pk-check {
+  opacity: 1;
+  color: var(--muted);
+}
+.pk-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pk-count {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.pk-empty {
+  padding: 0.6rem 0.9rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.pk > .pk-new {
+  margin: 0.2rem 0.4rem 0.4rem;
+  width: calc(100% - 0.8rem);
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 calc(var(--r) * 0.7) calc(var(--r) * 0.7);
+}

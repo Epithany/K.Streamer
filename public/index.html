@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000" />
+    <script src="/js/client-log.js"></script>
+
+    <title>K. Streamer</title>
+    <link rel="stylesheet" href="/fa/css/all.min.css" />
+    <link rel="stylesheet" href="/css/liquid-glass.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/accounts.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="shortcut icon" href="/k.svg" type="image/x-icon" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+
+  <body class="home-body has-nav">
+    <nav class="nav" id="appNav" aria-label="Main">
+      <span class="nav-plate" aria-hidden="true"></span>
+      <!-- <a class="nav-brand" href="/" aria-label="K. Streamer home"
+        ><img src="/k.svg" alt="" />
+      </a> -->
+      <div class="nav-scroll">
+        <div class="nav-main">
+        <a class="nav-item" href="/" data-nav="/"
+          ><i class="fa-solid fa-house"></i
+          ><span class="nav-label">Library</span></a
+        >
+        <a class="nav-item" href="/listen" data-nav="/listen"
+          ><i class="fa-solid fa-music"></i
+          ><span class="nav-label">Music</span></a
+        >
+        <a class="nav-item" href="/shorts" data-nav="/shorts"
+          ><i class="fa-solid fa-mobile-screen"></i
+          ><span class="nav-label">Shorts</span></a
+        >
+        <button
+          id="navSearch"
+          class="nav-item"
+          type="button"
+          aria-label="Search"
+          title="Search (/)"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i
+          ><span class="nav-label">Search</span>
+        </button>
+        <a class="nav-item" href="/manage" data-nav="/manage"
+          ><i class="fa-solid fa-photo-film"></i
+          ><span class="nav-label">Studio</span></a
+        >
+        <button
+          id="navMore"
+          class="nav-item nav-more"
+          type="button"
+          aria-label="More"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
+          <i class="fa-solid fa-ellipsis"></i>
+        </button>
+      </div>
+      <div class="nav-extra">
+        <a class="nav-item" href="/channels" data-nav="/channels"
+          ><i class="fa-solid fa-tower-broadcast"></i
+          ><span class="nav-label">Channels</span></a
+        >
+        <button
+          id="uploadBtn"
+          class="nav-item"
+          type="button"
+          title="Upload videos"
+        >
+          <i class="fa-solid fa-upload"></i
+          ><span class="nav-label">Upload</span>
+        </button>
+        <button
+          id="reloadBtn"
+          class="nav-item"
+          type="button"
+          title="Reload page"
+        >
+          <i class="fa-solid fa-rotate"></i
+          ><span class="nav-label">Reload</span>
+        </button>
+        <button
+          id="refreshBtn"
+          class="nav-item"
+          type="button"
+          title="Rescan videos"
+        >
+          <i class="fa-solid fa-arrow-rotate-right"></i
+          ><span class="nav-label">Rescan</span>
+        </button>
+      </div>
+      </div>
+      
+      <div id="accountSlot" class="nav-account" data-menu="up"></div>
+    </nav>
+
+    <main>
+      <div id="channelBanner" class="channel-banner" hidden></div>
+      <div id="contentGrid" class="grid"></div>
+      <p id="emptyState" class="empty" hidden></p>
+    </main>
+
+    <dialog
+      id="uploadDialog"
+      class="upload-dialog"
+      aria-labelledby="uploadTitle"
+    >
+      <div class="up-head">
+        <h2 id="uploadTitle">Upload videos</h2>
+        <button id="upClose" class="hbtn" type="button" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div
+        class="up-seg"
+        role="radiogroup"
+        aria-label="What are you uploading?"
+      >
+        <label
+          ><input type="radio" name="upKind" value="movie" checked /><span
+            ><i class="fa-solid fa-film"></i>Movie</span
+          ></label
+        >
+        <label
+          ><input type="radio" name="upKind" value="show" /><span
+            ><i class="fa-solid fa-tv"></i>Show</span
+          ></label
+        >
+        <label
+          ><input type="radio" name="upKind" value="song" /><span
+            ><i class="fa-solid fa-music"></i>Song</span
+          ></label
+        >
+        <label
+          ><input type="radio" name="upKind" value="short" /><span
+            ><i class="fa-solid fa-mobile-screen"></i>Short</span
+          ></label
+        >
+      </div>
+
+      <label id="upShowWrap" class="up-field" hidden>
+        <span>Show name</span>
+        <input
+          id="upShow"
+          type="text"
+          list="upShowList"
+          maxlength="120"
+          placeholder="Pick an existing show or type a new one"
+          autocomplete="off"
+        />
+        <datalist id="upShowList"></datalist>
+      </label>
+
+      <label id="upPlaylistWrap" class="up-field" hidden>
+        <span>Playlist (folder) - leave empty for Singles</span>
+        <input
+          id="upPlaylist"
+          type="text"
+          list="upPlaylistList"
+          maxlength="120"
+          placeholder="Pick an existing playlist or type a new one"
+          autocomplete="off"
+        />
+        <datalist id="upPlaylistList"></datalist>
+      </label>
+
+      <fieldset id="upSourceWrap" class="up-source" hidden>
+        <legend>Uploaded from</legend>
+        <div class="up-seg">
+          <label
+            ><input type="radio" name="upSource" value="tiktok" /><span
+              >TikTok</span
+            ></label
+          >
+          <label
+            ><input type="radio" name="upSource" value="instagram" /><span
+              >Instagram</span
+            ></label
+          >
+          <label
+            ><input type="radio" name="upSource" value="other" /><span
+              >Other</span
+            ></label
+          >
+        </div>
+        <small
+          >TikTok and Instagram saves end with an outro, so the last 4 seconds
+          are cut off (no re-encode). Other leaves the video untouched.</small
+        >
+      </fieldset>
+
+      <fieldset id="upWhoWrap" class="up-source">
+        <legend>Who can see it</legend>
+        <div class="up-seg" role="radiogroup" aria-label="Who can see it">
+          <label
+            ><input type="radio" name="upWho" value="private" checked /><span
+              >Only me</span
+            ></label
+          >
+          <label
+            ><input type="radio" name="upWho" value="public" /><span
+              >Everyone</span
+            ></label
+          >
+          <label
+            ><input type="radio" name="upWho" value="shared" /><span
+              >Specific people</span
+            ></label
+          >
+        </div>
+        <div id="upPeople" class="people" hidden></div>
+      </fieldset>
+
+      <div id="upDrop" class="up-drop">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <p id="upDropText">Drop video files here</p>
+        <label class="hbtn up-pick">
+          <span>Choose files</span>
+          <input
+            id="upFiles"
+            type="file"
+            accept="video/*,.mkv,.avi,.wmv,.flv,.ts,.m2ts"
+            multiple
+            hidden
+          />
+        </label>
+      </div>
+
+      <ul id="upList" class="up-list"></ul>
+      <p id="upMsg" class="up-msg" role="status"></p>
+
+      <div class="up-actions">
+        <button id="upClear" class="hbtn" type="button">Clear</button>
+        <button id="upStart" class="hbtn up-go" type="button" disabled>
+          <i class="fa-solid fa-upload"></i><span>Upload</span>
+        </button>
+      </div>
+    </dialog>
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/device-control.js"></script>
+    <script src="/js/ui-common.js"></script>
+    <script src="/js/account.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/upload.js"></script>
+    <script src="/js/liquid-glass.js"></script>
+    <script>
+      LiquidGlass.init({
+        selector: glassSelector(""),
+        rim: 0,
+        strength: 2,
+        bezel: 0.1,
+        power: 8,
+        page: {
+          image: "/images/ascii_halftone.png",
+          opacity: 1,
+          fadeBottom: true,
+        },
+        video: {
+          element: "#video",
+          fps: 30,
+          shade: [
+            { edge: "bottom", size: 0.48, from: 0.9 },
+            { edge: "top", size: 0.32, from: 0.78 },
+          ],
+        },
+      });
+    </script>
+  </body>
+</html>

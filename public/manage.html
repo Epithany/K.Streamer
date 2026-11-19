@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+    <script src="/js/client-log.js"></script>
+
+    <title>My space · K. Streamer</title>
+    <link rel="stylesheet" href="/fa/css/all.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/liquid-glass.css" />
+    <link rel="stylesheet" href="/css/accounts.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="stylesheet" href="/css/manage.css" />
+    <link rel="shortcut icon" href="/k.svg" type="image/x-icon" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+
+  <body class="manage-body has-nav">
+    <nav class="nav" id="appNav" aria-label="Main">
+      <span class="nav-plate" aria-hidden="true"></span>
+
+      <div class="nav-scroll">
+
+        <div class="nav-main">
+        <a class="nav-item" href="/" data-nav="/"
+          ><i class="fa-solid fa-house"></i
+          ><span class="nav-label">Library</span></a
+        >
+        <a class="nav-item" href="/listen" data-nav="/listen"
+          ><i class="fa-solid fa-music"></i
+          ><span class="nav-label">Music</span></a
+        >
+        <a class="nav-item" href="/shorts" data-nav="/shorts"
+          ><i class="fa-solid fa-mobile-screen"></i
+          ><span class="nav-label">Shorts</span></a
+        >
+        <button
+          id="navSearch"
+          class="nav-item"
+          type="button"
+          aria-label="Search"
+          title="Search (/)"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i
+          ><span class="nav-label">Search</span>
+        </button>
+        <a class="nav-item" href="/manage" data-nav="/manage"
+          ><i class="fa-solid fa-photo-film"></i
+          ><span class="nav-label">Studio</span></a
+        >
+        <button
+          id="navMore"
+          class="nav-item nav-more"
+          type="button"
+          aria-label="More"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
+          <i class="fa-solid fa-ellipsis"></i>
+        </button>
+      </div>
+      <div class="nav-extra">
+        <a class="nav-item" href="/channels" data-nav="/channels"
+          ><i class="fa-solid fa-tower-broadcast"></i
+          ><span class="nav-label">Channels</span></a
+        >
+      </div>
+      </div>
+      
+      <div id="accountSlot" class="nav-account" data-menu="up"></div>
+    </nav>
+
+    <main class="mg studio">
+      <p class="studio-kicker">K. Streamer Studio</p>
+      <h1>Manage your library</h1>
+
+      <nav class="mg-tabs" role="tablist">
+        <button type="button" role="tab" data-tab="uploads">
+          <i class="fa-solid fa-film"></i>Content
+        </button>
+        <button type="button" role="tab" data-tab="playlists">Playlists</button>
+        <button type="button" role="tab" data-tab="account">
+          <i class="fa-solid fa-gear"></i>Settings
+        </button>
+        <button
+          type="button"
+          role="tab"
+          data-tab="accounts"
+          id="adminTab"
+          hidden
+        >
+          People
+        </button>
+      </nav>
+
+      <section id="tab-uploads" class="mg-pane" hidden>
+        <p class="mg-hint">
+          Review your uploads, edit titles, check codecs, and choose who can
+          watch them.
+        </p>
+        <div class="mg-bar">
+          <button id="selAll" type="button" class="hbtn">Select all</button>
+          <button id="selNone" type="button" class="hbtn">Clear</button>
+          <button id="selEdit" type="button" class="hbtn btn-primary" disabled>
+            <i class="fa-solid fa-user-lock"></i><span>Change sharing</span>
+          </button>
+        </div>
+        <div id="uploadList"></div>
+      </section>
+
+      <section id="tab-playlists" class="mg-pane" hidden>
+        <p class="mg-hint">
+          Your saved lists. Expand a card to preview it, or open Manage list for
+          full editing.
+        </p>
+        <div id="playlistList"></div>
+      </section>
+
+      <section id="tab-account" class="mg-pane" hidden>
+        <div id="whoAmI" class="mg-me"></div>
+        <h2 class="mg-h">Change password</h2>
+        <form id="pwForm" class="mg-form">
+          <label class="field"
+            ><span>Current password</span
+            ><input id="pwCur" type="password" autocomplete="current-password"
+          /></label>
+          <label class="field"
+            ><span>New password</span
+            ><input id="pwNew" type="password" autocomplete="new-password"
+          /></label>
+          <label class="field"
+            ><span>Repeat new password</span
+            ><input id="pwNew2" type="password" autocomplete="new-password"
+          /></label>
+          <p id="pwMsg" class="m-error" role="alert"></p>
+          <button type="submit" class="hbtn btn-primary">
+            Change password
+          </button>
+        </form>
+      </section>
+
+      <section id="tab-accounts" class="mg-pane" hidden>
+        <p class="mg-hint">Everyone who can sign in to this server.</p>
+        <div id="peopleList"></div>
+        <h2 class="mg-h">Add a person</h2>
+        <form id="addForm" class="mg-form">
+          <label class="field"
+            ><span>Name</span
+            ><input id="addName" type="text" maxlength="32" autocomplete="off"
+          /></label>
+          <label class="field"
+            ><span>Password</span
+            ><input id="addPass" type="password" autocomplete="new-password"
+          /></label>
+          <div
+            id="addColors"
+            class="swatches"
+            role="radiogroup"
+            aria-label="Colour"
+          ></div>
+          <label class="check"
+            ><input id="addAdmin" type="checkbox" /> Can manage people</label
+          >
+          <p id="addMsg" class="m-error" role="alert"></p>
+          <button type="submit" class="hbtn btn-primary">Add person</button>
+        </form>
+      </section>
+    </main>
+
+    <dialog id="shareDlg" class="modal">
+      <form id="shareForm">
+        <h2 id="shareTitle">Who can see this?</h2>
+        <div class="up-seg" role="radiogroup" aria-label="Who can see this">
+          <label
+            ><input type="radio" name="shWho" value="private" /><span
+              >Only me</span
+            ></label
+          >
+          <label
+            ><input type="radio" name="shWho" value="public" /><span
+              >Everyone</span
+            ></label
+          >
+          <label
+            ><input type="radio" name="shWho" value="shared" /><span
+              >Specific people</span
+            ></label
+          >
+        </div>
+        <div id="shPeople" class="people" hidden></div>
+        <p id="shError" class="m-error" role="alert"></p>
+        <div class="m-actions">
+          <button id="shCancel" type="button" class="hbtn">Cancel</button>
+          <button type="submit" class="hbtn btn-primary">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/device-control.js"></script>
+    <script src="/js/ui-common.js"></script>
+    <script src="/js/picker.js"></script>
+    <script src="/js/account.js"></script>
+    <script src="/js/manage.js"></script>
+    <script src="/js/liquid-glass.js"></script>
+    <script>
+      LiquidGlass.init({
+        selector: glassSelector(
+          "button:not(.nav-item):not(.acct-btn):not([role=tab])",
+        ),
+        rim: 0,
+        strength: 3,
+        bezel: 0.6,
+        power: 3,
+        page: {
+          image: "/images/chromatic_light_2_preview.webp",
+          opacity: 1,
+          fadeBottom: true,
+        },
+      });
+    </script>
+  </body>
+</html>

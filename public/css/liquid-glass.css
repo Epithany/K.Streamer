@@ -1,0 +1,60 @@
+/* Applies only to elements LiquidGlass has activated (.lg-on). On TVs nothing
+   is activated, so the site's normal styles stay exactly as they are. */
+:where(.lg-on) {
+  /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); */
+}
+.lg-on:where(button) {
+  border-radius: 999px !important;
+}
+.lg-on {
+  isolation: isolate;
+  border-color: transparent;
+  background-color: transparent !important;
+}
+
+.lg-on > .lg-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  pointer-events: none;
+  transition:
+    opacity 0.15s,
+    filter 0.15s;
+    background: rgb(0,0,0,0.9);
+}
+
+@media (hover: hover) {
+  .lg-on:hover > .lg-canvas {
+    filter: brightness(1.15);
+  }
+}
+
+/* Keyboard and remote focus: let the element's own focus style show through. */
+.lg-on:focus-visible > .lg-canvas,
+[data-input="key"] .lg-on:focus > .lg-canvas {
+  opacity: 0;
+}
+.lg-on:focus-visible,
+[data-input="key"] .lg-on:focus {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* svg mode (Chromium): the browser bends whatever is really behind the element.
+   Note: an ancestor with opacity < 1, filter, mask, clip-path or mix-blend-mode
+   becomes a "backdrop root" and hides the page behind it from this effect. */
+.lg-svg {
+  -webkit-backdrop-filter: var(--lg-bd);
+  backdrop-filter: var(--lg-bd);
+}
+
+/* People who ask for more contrast get a visible outline on every glass control. */
+@media (prefers-contrast: more) {
+  .lg-on {
+    outline: 1px solid currentColor;
+    outline-offset: -1px;
+  }
+}

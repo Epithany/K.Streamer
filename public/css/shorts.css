@@ -1,0 +1,198 @@
+/* ===== Shorts: vertical, one-at-a-time feed ===== */
+.shorts-body {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+/* The feed is the scroller. Native scroll-snap gives the swipe-up/down feel
+   on phones; wheel, keys and the buttons drive it on desktop (shorts.js). */
+.feed {
+  position: fixed;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  outline: none;
+}
+.feed::-webkit-scrollbar { display: none; }
+
+.reel {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Full width on phones; a 9:16 column on wide screens. */
+.frame {
+  --frame-w: min(100vw, 56.25vh);
+  position: relative;
+  width: var(--frame-w);
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  cursor: pointer;
+}
+@supports (height: 100dvh) {
+  .frame { --frame-w: min(100vw, 56.25dvh); }
+}
+
+.frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+/* Portrait clips fill a tall phone screen; anything else stays letterboxed. */
+@media (max-width: 819px) {
+  .reel.portrait video { object-fit: cover; }
+}
+
+.spin,
+.flash,
+.bad {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.spin { font-size: 2rem; color: rgba(255, 255, 255, 0.85); }
+.bad { padding: 2rem; text-align: center; color: var(--muted); }
+
+/* Paused by the viewer: show a play icon until they resume. */
+.flash { opacity: 0; transition: opacity 0.18s; }
+.flash i {
+  display: grid;
+  place-items: center;
+  width: 5rem;
+  height: 5rem;
+  padding-left: 0.3rem;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  font-size: 2rem;
+}
+.reel.paused .flash { opacity: 1; }
+
+.prog {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: env(safe-area-inset-bottom, 0px);
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+}
+.prog i {
+  display: block;
+  height: 100%;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* ===== Overlay buttons ===== */
+.sbtn {
+  position: fixed;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  width: var(--ctl);
+  height: var(--ctl);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 1.1rem;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+@media (hover: hover) {
+  .sbtn:hover { background: rgba(255, 255, 255, 0.25); }
+}
+[data-input="key"] .sbtn:focus {
+  background: #fff;
+  color: #000;
+  transform: scale(1.06);
+}
+
+/* Back / mute sit inside the video column, wherever it is on screen. */
+.s-back,
+.s-mute {
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+}
+.s-back { left: max(12px, calc(50vw - 28.125vh + 12px)); }
+.s-mute { right: max(12px, calc(50vw - 28.125vh + 12px)); }
+@supports (height: 100dvh) {
+  .s-back { left: max(12px, calc(50vw - 28.125dvh + 12px)); }
+  .s-mute { right: max(12px, calc(50vw - 28.125dvh + 12px)); }
+}
+.s-mute .i-off { display: none; }
+.s-mute.muted .i-on { display: none; }
+.s-mute.muted .i-off { display: inline; }
+
+/* Up / down buttons: larger screens only (phones swipe). */
+.s-nav {
+  position: fixed;
+  z-index: 10;
+  top: 50%;
+  right: max(12px, calc(50vw - 28.125vh - var(--ctl) - 16px));
+  display: none;
+  flex-direction: column;
+  gap: 0.8rem;
+  transform: translateY(-50%);
+}
+@supports (height: 100dvh) {
+  .s-nav { right: max(12px, calc(50vw - 28.125dvh - var(--ctl) - 16px)); }
+}
+.s-nav .sbtn { position: static; }
+@media (min-width: 820px) {
+  .s-nav { display: flex; }
+}
+.s-nav .sbtn:disabled { opacity: 0.35; pointer-events: none; }
+
+.s-hint {
+  position: fixed;
+  z-index: 10;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 28px);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.6rem;
+  padding: 0 1.1rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-weight: 600;
+  transform: translateX(-50%);
+  cursor: pointer;
+  outline: none;
+}
+
+.s-empty {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 2rem;
+  text-align: center;
+  color: var(--muted);
+  pointer-events: none;
+}

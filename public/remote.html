@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+    <script src="/js/client-log.js"></script>
+
+    <title>Remote · K. Streamer</title>
+    <link rel="stylesheet" href="/fa/css/all.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/liquid-glass.css" />
+    <link rel="stylesheet" href="/css/accounts.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="stylesheet" href="/css/remote.css" />
+    <link rel="shortcut icon" href="/k.svg" type="image/x-icon" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+
+  <body class="remote-body">
+
+    <main class="remote">
+      <div class="page-bar">
+        <a class="hbtn" href="/"
+          ><i class="fa-solid fa-arrow-left"></i><span>Library</span></a
+        >
+        <div id="accountSlot"></div>
+      </div>
+
+      <header class="page-head">
+        <h1>Remote</h1>
+        <p>Pick a screen that has this site open, then send it controls.</p>
+      </header>
+
+      <div class="rm-layout">
+        <aside class="rm-side">
+          <header class="rm-side-head">
+            <h2 class="rm-h">
+              Devices <span id="deviceCount" class="rm-count">0</span>
+            </h2>
+            <button
+              id="refreshDevices"
+              class="rm-icon"
+              type="button"
+              aria-label="Refresh devices"
+              title="Refresh devices"
+            >
+              <i class="fa-solid fa-rotate"></i>
+            </button>
+          </header>
+          <div id="deviceList" class="rm-devices"></div>
+          <p id="deviceEmpty" class="rm-empty">
+            No screens are connected yet. Open the site on a phone, laptop or TV
+            and it appears here.
+          </p>
+          <p class="rm-foot">
+            Screens are listed while this site is open on them.
+          </p>
+        </aside>
+
+        <div class="rm-main">
+          <p id="noSelection" class="rm-placeholder">
+            Select a device to control it.
+          </p>
+
+          <div id="panel" hidden>
+            <header class="rm-device-head">
+              <span id="panelIcon" class="rm-device-icon"
+                ><i class="fa-solid fa-laptop"></i
+              ></span>
+              <div class="rm-device-id">
+                <h2 id="panelName">Device</h2>
+                <p id="panelMeta"></p>
+              </div>
+              <form id="renameForm" class="rm-rename">
+                <input
+                  id="renameInput"
+                  type="text"
+                  maxlength="48"
+                  placeholder="Name this device"
+                  aria-label="Device name"
+                  autocomplete="off"
+                />
+                <button class="hbtn" type="submit">Name</button>
+              </form>
+            </header>
+
+            <p id="panelNow" class="rm-now" hidden></p>
+
+            <div id="groups" class="rm-groups"></div>
+            <p id="status" class="rm-status" role="status"></p>
+          </div>
+
+          <section class="rm-console" aria-labelledby="consoleTitle">
+            <header class="rm-console-head">
+              <h2 id="consoleTitle">
+                <i class="fa-solid fa-terminal"></i> Console
+              </h2>
+              <span class="rm-hint"
+                >/device list · /device TV video-pause · /restart · /help</span
+              >
+            </header>
+            <div
+              id="consoleOut"
+              class="rm-console-out"
+              aria-live="polite"
+              tabindex="0"
+            ></div>
+            <form id="consoleForm" class="rm-console-in">
+              <span class="rm-prompt" aria-hidden="true">&gt;</span>
+              <input
+                id="consoleInput"
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="/device list"
+                aria-label="Console command"
+              />
+            </form>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <script src="/js/ui-common.js"></script>
+    <script src="/js/account.js"></script>
+    <script src="/js/remote.js"></script>
+    <script src="/js/liquid-glass.js"></script>
+    <script>
+      LiquidGlass.init({
+        selector: "button:not(.acct-btn)",
+        rim: 0,
+        strength: 3,
+        bezel: 0.6,
+        power: 3,
+        page: {
+          image: "/images/chromatic_light_2_preview.webp",
+          opacity: 0.8,
+          fadeBottom: true,
+        },
+      });
+    </script>
+  </body>
+</html>
